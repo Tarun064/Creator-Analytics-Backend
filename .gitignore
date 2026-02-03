@@ -1,0 +1,11 @@
+# SQLite DB (local data)
+*.db
+creator_analytics.db
+
+# Python
+__pycache__
+.venv
+venv
+.env
+*.pyc
+*.pyo

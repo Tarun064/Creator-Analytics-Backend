@@ -1,0 +1,13 @@
+# Use this if full requirements.txt fails (e.g. no PostgreSQL dev tools).
+# App runs with SQLite only.
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+sqlalchemy[asyncio]>=2.0.0
+aiosqlite>=0.19.0
+python-jose[cryptography]>=3.3.0
+bcrypt>=4.1.0
+passlib[bcrypt]>=1.7.4
+pydantic[email]>=2.0.0
+python-multipart>=0.0.9
+python-dotenv>=1.0.0
+redis>=5.0.0
