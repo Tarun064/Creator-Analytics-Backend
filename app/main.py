@@ -24,10 +24,13 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Create DB tables and seed dummy data if empty."""
-    logger.info("Creating database tables...")
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    logger.info("Database ready.")
+    try:
+        logger.info("Creating database tables...")
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("Database ready.")
+    except Exception as e:
+        logger.error("Database initialization failed: %s", e)
     # Seed demo user + channel + videos + AI insights when DB is empty
     try:
         from app.services.seed_data import seed_if_empty

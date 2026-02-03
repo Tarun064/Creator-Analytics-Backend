@@ -20,10 +20,17 @@ class Settings:
     APP_NAME: str = "AI Creator Analytics"
     DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
 
-    # Database: default SQLite (no setup – file created in backend/). Set DATABASE_URL for PostgreSQL.
-    DATABASE_URL: str = os.getenv(
-        "DATABASE_URL",
-        "sqlite+aiosqlite:///./creator_analytics.db" if not os.getenv("VERCEL") else "sqlite+aiosqlite:////tmp/creator_analytics.db",
+    # Database
+    _db_url = os.getenv("DATABASE_URL")
+    if _db_url:
+        # Fix for SQLAlchemy asyncpg: it needs postgresql+asyncpg://
+        if _db_url.startswith("postgres://"):
+            _db_url = _db_url.replace("postgres://", "postgresql+asyncpg://", 1)
+        elif _db_url.startswith("postgresql://"):
+            _db_url = _db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    
+    DATABASE_URL: str = _db_url or (
+        "sqlite+aiosqlite:///./creator_analytics.db" if not os.getenv("VERCEL") else "sqlite+aiosqlite:////tmp/creator_analytics.db"
     )
 
     # Redis (optional when running without Docker; use localhost if Redis is local)
