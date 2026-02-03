@@ -41,8 +41,10 @@ class Settings:
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
 
-    # CORS (for production set CORS_ORIGINS to comma-separated URLs, e.g. your Vercel URL)
-    CORS_ORIGINS: List[str] = [x.strip() for x in os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")]
+    # CORS
+    # If CORS_ORIGINS is set, split it. Otherwise allow all ("*") for easier initial setup/debugging.
+    _cors_env = os.getenv("CORS_ORIGINS")
+    CORS_ORIGINS: List[str] = [x.strip() for x in _cors_env.split(",")] if _cors_env else ["*"]
 
     # Celery (use localhost when running without Docker)
     CELERY_BROKER_URL: str = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/1")
