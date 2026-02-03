@@ -69,3 +69,13 @@ app.include_router(ai_suggestions.router, prefix="/ai", tags=["ai"])
 async def health():
     """Health check for Docker/load balancers."""
     return {"status": "ok"}
+
+
+@app.get("/")
+async def root():
+    """Root endpoint to check API status."""
+    return {
+        "message": "AI Creator Analytics API is running",
+        "docs": "/docs",
+        "health": "/health",
+    }
