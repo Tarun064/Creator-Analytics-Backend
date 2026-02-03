@@ -23,7 +23,7 @@ class Settings:
     # Database: default SQLite (no setup – file created in backend/). Set DATABASE_URL for PostgreSQL.
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL",
-        "sqlite+aiosqlite:///./creator_analytics.db",
+        "sqlite+aiosqlite:///./creator_analytics.db" if not os.getenv("VERCEL") else "sqlite+aiosqlite:////tmp/creator_analytics.db",
     )
 
     # Redis (optional when running without Docker; use localhost if Redis is local)
